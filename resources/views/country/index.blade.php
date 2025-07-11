@@ -86,14 +86,10 @@
                             <th scope="col" style="width:70px">#</th>
                             <th scope="col">Name</th>
                             <th scope="col">Capital</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Bangladesh</td>
-                            <td>Dhaka</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -165,6 +161,24 @@
                 }
             });
         });
+
+        //for showing country list
+       let table = $('#countryTable').DataTable({
+           processing: true,
+           info:true,
+           serverSide: true,
+           responsive: true,
+           autowidth: false,
+           pageLength: 5,
+           aLengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "All"]],
+           ajax: "{{ route('country.index') }}",
+           columns: [
+               { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+               { data: 'country_name', name: 'country_name' },
+               { data: 'capital_city', name: 'capital_city' },
+               { data: 'action', name: 'action' },
+           ]
+       })
     </script>
 
 </body>

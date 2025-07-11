@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class CountryController extends Controller
 {
@@ -38,12 +39,29 @@ class CountryController extends Controller
         $country->capital_city = $request->capital_city;
         $save = $country->save();
 
-        if($save){
+        if ($save) {
             return response()->json(['status' => 1, 'message' => 'Country added successfully']);
         } else {
             return response()->json(['status' => 0, 'message' => 'Country not added']);
         }
+    }
+    public function getCountries(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Country::select(['id', 'country_name', 'capital_city'])
+                ->orderBy('country_name', 'asc');
 
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    return '<button class="btn btn-sm btn-info">Edit</button>
+                        <button class="btn btn-sm btn-danger">Delete</button>';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        abort(403);
     }
 
     /**
