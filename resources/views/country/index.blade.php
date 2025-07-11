@@ -152,6 +152,7 @@
                     if (data.status == 1) {
                         toastr.success(data.message);
                         form.reset();
+                        table.ajax.reload(null, false);
                     }
                 },
                 error: function(data) {

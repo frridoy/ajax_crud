@@ -49,7 +49,7 @@ class CountryController extends Controller
     {
         if ($request->ajax()) {
             $data = Country::select(['id', 'country_name', 'capital_city'])
-                ->orderBy('country_name', 'asc');
+                ->orderBy('id', 'desc');
 
             return DataTables::of($data)
                 ->addIndexColumn()
